@@ -1,0 +1,10 @@
+Окружение python -m venv venv
+venv\\Scripts\\activate
+
+git init
+.venv\Scripts\activate.ps1 или .venv\Scripts\activate.bat
+python.exe -m pip install --upgrade pip
+pip install -r requirements.txt
+
+
+~итоговый список зависимостей зафиксировать через pip freeze > requirements.txt уже после завершения работы над ботом.
