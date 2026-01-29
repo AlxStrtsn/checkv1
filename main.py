@@ -3,7 +3,11 @@ import os
 import pandas as pd
 from tabulate import tabulate
 from datetime import datetime
+from pathlib import Path
+
 directory = 'in'
+source_dir = Path(directory)
+target_dir = Path('in_')
 
 str1 = ''
 
@@ -36,7 +40,6 @@ for i in os.scandir(directory):  # сканирование директории
         operator = data[0]['ticket']['document']['receipt']['operator']
     else:
         operator = "0"
-
 
 
     #TODO сделать процедуру работа с числом и перевод в строку
@@ -95,3 +98,20 @@ timeN = datetime.now()
 print(timeN.strftime("%Y.%m.%d_%H-%M-%S"))
 
 df.to_csv(timeN.strftime("%Y.%m.%d_%H-%M-%S")+'example6.txt', sep='\t', index=False)
+
+
+# Создаём целевую папку, если её нет
+target_dir.mkdir(exist_ok=True)
+
+# Перемещаем все *-файлы
+for file in source_dir.glob('*'):
+    new_path = target_dir / file.name  # Сохраняем имя файла
+    try:
+        file.rename(new_path)
+        print("Файл успешно перемещён!")
+    except FileNotFoundError:
+        print("Исходный файл не найден!")
+    except PermissionError:
+        print("Нет прав на перемещение!")
+    except Exception as e:
+        print(f"Произошла ошибка: {e}")
